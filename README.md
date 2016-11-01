@@ -1,2 +1,2 @@
 # SRID_Fall_16
-Course project repot
+Project Repository for SRID (each team can create its own folder)
