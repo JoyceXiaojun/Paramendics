@@ -1,2 +1,2 @@
-# SRID_Fall_16
-Project Repository for SRID (each team can create its own folder)
+# SRID_Fall_16_EMS
+Project Repository for SRID EMS
