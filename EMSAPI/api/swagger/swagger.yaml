@@ -18,43 +18,180 @@ consumes:
 produces:
   - application/json
 paths:
-  /hello:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
-    get:
-      description: Returns 'Hello' to the caller
-      # used as the method name of the controller
-      operationId: hello
-      parameters:
-        - name: name
-          in: query
-          description: The name of the person to whom to say hello
-          required: false
-          type: string
-      responses:
-        "200":
-          description: Success
+  
+  /paramedics/medicine: 
+   get: 
+     tags: 
+       - "Medicine instruction"
+     description: "paramedics get medicine instructions"
+     operationId: "searchMedicine"
+     produces: 
+       - "text"
+     parameters: 
+       - 
+         name: "medicinename"
+         in: "query"
+         description: "latitude"
+         required: false
+         type: "string"
+       
+     responses:
+        200:
+          description: An array of products
           schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
-        # responses may fall through to errors
+            type: array
+            items:
+              $ref: '#/definitions/Medicine'
         default:
-          description: Error
+          description: Unexpected error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/Error'
+  
+  /paramecics/patientprofile: 
+    get: 
+     tags: 
+       - "Patient Profile"
+     description: "gets air quality index"
+     operationId: "searchPatientProfile"
+     produces: 
+       - "text"
+     parameters: 
+       - 
+         name: "patientid"
+         in: "query"
+         description: "longitude"
+         required: false
+         type: "string"
+     responses:
+        200:
+          description: An array of products
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PatientProfile'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /nurse/patientreport: 
+    get: 
+     tags: 
+       - "Patient Report"
+     description: "gets air quality index"
+     operationId: "viewPatientReport"
+     produces: 
+       - "text"
+     parameters: 
+       - 
+         name: "patientid"
+         in: "query"
+         description: "longitude"
+         required: false
+         type: "string"
+     responses:
+        200:
+          description: An array of products
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PatientReport'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /patient/profile: 
+    post: 
+     tags: 
+       - "Patient Profile"
+     description: "create patient report"
+     operationId: "createPatientProfile"
+     parameters: 
+       - 
+         name: "patientid"
+         in: "body"
+         description: "longitude"
+         required: true
+         schema:
+            items:
+              $ref: '#/definitions/PatientProfile'
+     responses:
+        200:
+          description: Successful response
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'       
+    
+  
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
+
 definitions:
-  HelloWorldResponse:
-    required:
-      - message
+  Medicine:
+    type: object
     properties:
+      medicine_id:
+        type: string
+        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
+      description:
+        type: string
+        description: Description of product.
+      medicine_name:
+        type: string
+        description: Display name of product.
+      capacity:
+        type: string
+        description: Capacity of product. For example, 4 people.
+      image:
+        type: string
+        description: Image URL representing the product.
+        
+  PatientProfile:
+    type: object
+    properties:
+      patient_id:
+        type: string
+        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
+      description:
+        type: string
+        description: Description of product.
+      patient_name:
+        type: string
+        description: Display name of product.
+      capacity:
+        type: string
+        description: Capacity of product. For example, 4 people.
+      image:
+        type: string
+        description: Image URL representing the product.
+        
+  PatientReport:
+    type: object
+    properties:
+      patient_id:
+        type: string
+        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
+      description:
+        type: string
+        description: Description of product.
+      patient_name:
+        type: string
+        description: Display name of product.
+      capacity:
+        type: string
+        description: Capacity of product. For example, 4 people.
+      image:
+        type: string
+        description: Image URL representing the product.
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
       message:
         type: string
-  ErrorResponse:
-    required:
-      - message
-    properties:
-      message:
+      fields:
         type: string
