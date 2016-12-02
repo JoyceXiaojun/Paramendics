@@ -19,11 +19,11 @@ produces:
   - application/json
 paths:
   
-  /paramedics/medicine: 
+  /medicine/searchByName: 
    get: 
      tags: 
        - "Medicine instruction"
-     description: "paramedics get medicine instructions"
+     description: "return medicine instruction "
      operationId: "searchMedicine"
      produces: 
        - "text"
@@ -42,24 +42,123 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Medicine'
+        400:
+          description: Invalid medicine name
+         
+        404:
+          description: Medicine not found
+          
         default:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  
-  /paramecics/patientprofile: 
-    get: 
+            
+  /hospital/searchbyKeyWord: 
+   get: 
      tags: 
-       - "Patient Profile"
-     description: "gets air quality index"
-     operationId: "searchPatientProfile"
+       - "Hospital Lists"
+     description: "return hospital lists "
+     operationId: "searchHospitals"
      produces: 
        - "text"
      parameters: 
        - 
-         name: "patientid"
+         name: "KeyWord"
          in: "query"
+         description: "latitude"
+         required: false
+         type: "string"
+       
+     responses:
+        200:
+          description: An array of products
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/HospitalList'
+        400:
+          description: Invalid key word
+         
+        404:
+          description: Hospital not found
+          
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /patientreport/{reportid}: 
+    get: 
+     tags: 
+       - "Patient Report"
+     description: "gets air quality index"
+     operationId: "viewPatientReport"
+     produces: 
+       - "text"
+     parameters: 
+       - 
+         name: reportid
+         in: path
          description: "longitude"
+         required: true
+         type: integer
+         format: int64
+     responses:
+        200:
+          description: An array of products
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PatientReport'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      tags: 
+        - "Patient Profile"
+      description: 
+        "create patient report"
+      parameters:
+        - 
+         name: reportid
+         in: path
+         description: "longitude"
+         required: true
+         type: integer
+         format: int64
+        - name: task 
+          in: body
+          description: task object
+          required: true
+          schema:
+            $ref: '#/definitions/PatientProfile'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              title: Return String
+              type: string
+              example: "Task added succesfully"
+        500:
+          description: Error
+          schema: 
+            type: string
+            example: "Could not add Task"
+            
+  /patientreport/findByStatus: 
+    get: 
+     tags: 
+       - "Patient Profile"
+     description: "gets air quality index"
+     operationId: "findby Status"
+     produces: 
+       - "text"
+     parameters: 
+       - 
+         name: "medicinename"
+         in: "query"
+         description: "latitude"
          required: false
          type: "string"
      responses:
@@ -74,56 +173,124 @@ paths:
           schema:
             $ref: '#/definitions/Error'
             
-  /nurse/patientreport: 
+  /patient:
+    post:
+      tags: 
+        - "Patient Profile"
+      description: 
+        "create new patient profile"
+      parameters:
+        - name: task 
+          in: body
+          description: task object
+          required: true
+          schema:
+            $ref: '#/definitions/PatientProfile'
+      responses:
+        200:
+          description: Successful response
+          schema:
+              title: Return String
+              type: string
+              example: "Task added succesfully"
+        500:
+          description: Error
+          schema: 
+            type: string
+            example: "Could not add Task"
+            
+  /patient/{patientid}: 
     get: 
      tags: 
-       - "Patient Report"
+       - "Patient Profile"
      description: "gets air quality index"
-     operationId: "viewPatientReport"
+     operationId: "viewprofile"
      produces: 
        - "text"
      parameters: 
        - 
-         name: "patientid"
-         in: "query"
+         name: patientid
+         in: path
          description: "longitude"
-         required: false
-         type: "string"
+         required: true
+         type: integer
+         format: int64
      responses:
         200:
           description: An array of products
           schema:
             type: array
             items:
-              $ref: '#/definitions/PatientReport'
+              $ref: '#/definitions/PatientProfile'
         default:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /patient/profile: 
-    post: 
-     tags: 
-       - "Patient Profile"
-     description: "create patient report"
-     operationId: "createPatientProfile"
-     parameters: 
-       - 
-         name: "patientid"
-         in: "body"
+    post:
+      tags: 
+        - "Patient Profile"
+      description: 
+        "update new patient profile"
+      parameters:
+        - 
+         name: patientid
+         in: path
          description: "longitude"
          required: true
-         schema:
-            items:
-              $ref: '#/definitions/PatientProfile'
-     responses:
+         type: integer
+         format: int64
+        - 
+          name: task 
+          in: body
+          description: task object
+          required: true
+          schema:
+            $ref: '#/definitions/PatientProfile'
+      responses:
         200:
           description: Successful response
-        default:
-          description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'       
-    
-  
+              title: Return String
+              type: string
+              example: "Task added succesfully"
+        500:
+          description: Error
+          schema: 
+            type: string
+            example: "Could not add Task"
+            
+  /patient/{patientid}/uploadImage: 
+    post:
+      tags: 
+        - "Patient Profile"
+      description: 
+        "update new patient profile"
+      parameters:
+        - 
+         name: patientid
+         in: path
+         description: "longitude"
+         required: true
+         type: integer
+         format: int64
+        - 
+          name: file
+          in: formData
+          description: image file
+          required: true
+          type: file
+      responses:
+        200:
+          description: Successful response
+          schema:
+              title: Return String
+              type: string
+              example: "Task added succesfully"
+        500:
+          description: Error
+          schema: 
+            type: string
+            example: "Could not add Task"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -168,6 +335,25 @@ definitions:
         description: Image URL representing the product.
         
   PatientReport:
+    type: object
+    properties:
+      patient_id:
+        type: string
+        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
+      description:
+        type: string
+        description: Description of product.
+      patient_name:
+        type: string
+        description: Display name of product.
+      capacity:
+        type: string
+        description: Capacity of product. For example, 4 people.
+      image:
+        type: string
+        description: Image URL representing the product.
+        
+  HospitalList:
     type: object
     properties:
       patient_id:
