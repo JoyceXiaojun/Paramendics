@@ -1,9 +1,9 @@
 swagger: "2.0"
 info:
-  version: "0.0.1"
-  title: Hello World App
+  version: "1.0.0"
+  title: EMS API
 # during dev, should point to your local machine
-host: localhost:10010
+host: api.ems.com
 # basePath prefixes all resource paths 
 basePath: /
 # 
@@ -19,36 +19,33 @@ produces:
   - application/json
 paths:
   
-  /medicine/searchByName: 
+  /medication/searchByName: 
    get: 
      tags: 
-       - "Medicine instruction"
-     description: "return medicine instruction "
+       - "Medication"
+     description: "The Medication endpoint is for Use Case: Get Medical Instruction. It returns drug information that matches what paramedics search. The response includes the drug's name and details of its usage. The drugs are listed in a proper order"
      operationId: "searchMedicine"
      produces: 
        - "text"
      parameters: 
        - 
-         name: "medicinename"
+         name: "name"
          in: "query"
-         description: "latitude"
-         required: false
+         description: "name of drug "
+         required: true
          type: "string"
-       
      responses:
         200:
-          description: An array of products
+          description: An array of drug instructions
           schema:
             type: array
             items:
-              $ref: '#/definitions/Medicine'
+              $ref: '#/definitions/Instruction'
         400:
-          description: Invalid medicine name
-         
+          description: Invalid drug name
         404:
-          description: Medicine not found
-          
-        default:
+          description: Drug not found
+        500:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
@@ -56,33 +53,36 @@ paths:
   /hospital/searchbyKeyWord: 
    get: 
      tags: 
-       - "Hospital Lists"
-     description: "return hospital lists "
+       - "Hospital"
+     description: "The Hospital endpoint is for Use Case: Paramedics Find Appropriate Hospitals. It returns a list of hospitals matches key words. The response includes the hospitals's name and address. The hopitals are ordered by distance."
      operationId: "searchHospitals"
      produces: 
        - "text"
      parameters: 
        - 
-         name: "KeyWord"
+         name: "keyword"
          in: "query"
-         description: "latitude"
-         required: false
+         description: "keywords could be any syptom, like trauma, heart attack"
+         required: true
          type: "string"
-       
+       - 
+         name: "zone"
+         in: "query"
+         description: "current zone where paramedics are located"
+         required: true
+         type: "string"
      responses:
         200:
-          description: An array of products
+          description: An array of hospitals
           schema:
             type: array
             items:
-              $ref: '#/definitions/HospitalList'
+              $ref: '#/definitions/Hospital'
         400:
-          description: Invalid key word
-         
+          description: Invalid zone
         404:
           description: Hospital not found
-          
-        default:
+        500:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
@@ -91,7 +91,7 @@ paths:
     get: 
      tags: 
        - "Patient Report"
-     description: "gets air quality index"
+     description: "The endpoint is for Use Case: Prepare for patient arrival. It returns drug information that matches what paramedics search. The response includes the drug's name and details of its usage. The drugs are listed in a proper order "
      operationId: "viewPatientReport"
      produces: 
        - "text"
@@ -99,18 +99,22 @@ paths:
        - 
          name: reportid
          in: path
-         description: "longitude"
+         description: "id of report to return"
          required: true
          type: integer
          format: int64
      responses:
         200:
-          description: An array of products
+          description: Patient Report with the given reportid
           schema:
-            type: array
+            type: object
             items:
               $ref: '#/definitions/PatientReport'
-        default:
+        400:
+          description: Invalid ID
+        404:
+          description: Report not found
+        500:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
@@ -118,57 +122,63 @@ paths:
       tags: 
         - "Patient Profile"
       description: 
-        "create patient report"
+        "The endpoint is for Use Case: Create Patient Report. It returns drug information that matches what paramedics search. The response includes the drug's name and details of its usage. The drugs are listed in a proper order "
       parameters:
         - 
          name: reportid
          in: path
-         description: "longitude"
+         description: "id of report that needs to be updated"
          required: true
          type: integer
          format: int64
-        - name: task 
-          in: body
-          description: task object
+        - name: status 
+          in: formData
+          description: "Update status of that report"
           required: true
-          schema:
-            $ref: '#/definitions/PatientProfile'
+          type: string
+       
+          
       responses:
         200:
           description: Successful response
           schema:
               title: Return String
               type: string
-              example: "Task added succesfully"
+              example: "Status Updated succesfully"
+        400:
+          description: Invalid ID
+        404:
+          description: Report not found
         500:
-          description: Error
-          schema: 
-            type: string
-            example: "Could not add Task"
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
             
   /patientreport/findByStatus: 
     get: 
      tags: 
        - "Patient Profile"
-     description: "gets air quality index"
+     description: "The endpoint is for Use Case: Prepare for Patient Arrival"
      operationId: "findby Status"
      produces: 
        - "text"
      parameters: 
        - 
-         name: "medicinename"
+         name: "status"
          in: "query"
-         description: "latitude"
-         required: false
+         description: "status that needs to be considered for filter"
+         required: true
          type: "string"
      responses:
         200:
-          description: An array of products
+          description: An array of reports
           schema:
             type: array
             items:
-              $ref: '#/definitions/PatientProfile'
-        default:
+              $ref: '#/definitions/PatientReport'
+        400:
+          description: Invalid status
+        500:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
@@ -178,11 +188,11 @@ paths:
       tags: 
         - "Patient Profile"
       description: 
-        "create new patient profile"
+        "The endpoint is for Use Case: Upload Patient Information"
       parameters:
-        - name: task 
+        - name: profile 
           in: body
-          description: task object
+          description: profile object
           required: true
           schema:
             $ref: '#/definitions/PatientProfile'
@@ -192,18 +202,17 @@ paths:
           schema:
               title: Return String
               type: string
-              example: "Task added succesfully"
+              example: "Profile created succesfully"
         500:
-          description: Error
-          schema: 
-            type: string
-            example: "Could not add Task"
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
             
   /patient/{patientid}: 
     get: 
      tags: 
        - "Patient Profile"
-     description: "gets air quality index"
+     description: "The patient endpoint is for Use Case: Acquire Patient Profile."
      operationId: "viewprofile"
      produces: 
        - "text"
@@ -211,18 +220,20 @@ paths:
        - 
          name: patientid
          in: path
-         description: "longitude"
+         description: "id of patient profile to return"
          required: true
          type: integer
          format: int64
      responses:
         200:
-          description: An array of products
+          description: Patient Profile with the given patient id
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/PatientProfile'
-        default:
+            $ref: '#/definitions/PatientProfile'
+        400:
+          description: Invalid ID
+        404:
+          description: Patient not found
+        500:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
@@ -230,147 +241,139 @@ paths:
       tags: 
         - "Patient Profile"
       description: 
-        "update new patient profile"
+        "The endpoint is for Use Case: Upload Patient Information"
       parameters:
         - 
          name: patientid
          in: path
-         description: "longitude"
+         description: "id of patient profile to be updated"
          required: true
          type: integer
          format: int64
         - 
-          name: task 
-          in: body
-          description: task object
-          required: true
-          schema:
-            $ref: '#/definitions/PatientProfile'
-      responses:
-        200:
-          description: Successful response
-          schema:
-              title: Return String
-              type: string
-              example: "Task added succesfully"
-        500:
-          description: Error
-          schema: 
-            type: string
-            example: "Could not add Task"
-            
-  /patient/{patientid}/uploadImage: 
-    post:
-      tags: 
-        - "Patient Profile"
-      description: 
-        "update new patient profile"
-      parameters:
-        - 
-         name: patientid
-         in: path
-         description: "longitude"
-         required: true
-         type: integer
-         format: int64
-        - 
-          name: file
+          name: sex 
           in: formData
-          description: image file
-          required: true
-          type: file
+          description: profile object
+          required: false
+          type: string
+        - 
+          name: contact 
+          in: formData
+          description: profile object
+          required: false
+          type: string
+        - 
+          name: allergy
+          in: formData
+          description: profile object
+          required: false
+          type: string  
+        - 
+          name: medical_history
+          in: formData
+          description: profile object
+          required: false
+          type: string 
       responses:
         200:
           description: Successful response
           schema:
               title: Return String
               type: string
-              example: "Task added succesfully"
+              example: "Report Updated succesfully"
+        400:
+          description: Invalid ID
+        404:
+          description: Patient not found
         500:
-          description: Error
-          schema: 
-            type: string
-            example: "Could not add Task"
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 
 definitions:
-  Medicine:
+  Instruction:
     type: object
     properties:
-      medicine_id:
+      drug_id:
+        type: integer
+        description: Display id of drug.
+      usage:
         type: string
-        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
-      description:
+        description: Description of drug usage.
+      drug_name:
         type: string
-        description: Description of product.
-      medicine_name:
-        type: string
-        description: Display name of product.
-      capacity:
-        type: string
-        description: Capacity of product. For example, 4 people.
-      image:
-        type: string
-        description: Image URL representing the product.
+        description: Display name of drug.
+  
         
   PatientProfile:
     type: object
     properties:
       patient_id:
-        type: string
-        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
-      description:
-        type: string
-        description: Description of product.
+        type: integer
+        description: Display id of patient.
       patient_name:
         type: string
-        description: Display name of product.
-      capacity:
+        description: Display name of patient.
+      age:
+        type: integer
+        description: DDisplay age of patient.
+      sex:
         type: string
-        description: Capacity of product. For example, 4 people.
-      image:
+        description: Display sex of patient.
+      contact:
         type: string
-        description: Image URL representing the product.
+        description: Display contact number of patient.
+      allergy:
+        type: string
+        description: Display allergy history of patient.
+      medical_history:
+        type: string
+        description: Display medical history of patient.
         
   PatientReport:
     type: object
     properties:
-      patient_id:
-        type: string
+      patient_profile:
+        type: object
         description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
-      description:
+      symptom:
         type: string
-        description: Description of product.
-      patient_name:
+        description: Display symptom of patient.
+      last_meal:
         type: string
-        description: Display name of product.
-      capacity:
+        description: Display last meal that patient has.
+      medication:
         type: string
-        description: Capacity of product. For example, 4 people.
-      image:
+        description: Display medication that patient has.
+      event:
         type: string
-        description: Image URL representing the product.
+        description: Display events leading up injury.
+      status:
+        type: string
+        description: Display status of nurse dealing with the report, either finished or pending
+      
         
-  HospitalList:
+  Hospital:
     type: object
     properties:
-      patient_id:
+      hopital_id:
+        type: integer
+        description: Display id of hospital.
+      addtress:
         type: string
-        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
-      description:
+        description: Display address of hospital.
+      keyword:
         type: string
-        description: Description of product.
-      patient_name:
-        type: string
-        description: Display name of product.
+        description: Display keyword of hospital, including what service hopitals can provide and what equipments hospitals have 
       capacity:
         type: string
-        description: Capacity of product. For example, 4 people.
-      image:
-        type: string
-        description: Image URL representing the product.
+        description: Display capacity of hospital.
+
   Error:
     type: object
     properties:
