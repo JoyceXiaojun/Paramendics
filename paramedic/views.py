@@ -51,7 +51,7 @@ def patient_detail(request, id):
         'contacts':'Tony: 123-123-1234',
         'contacts2':'Brian: 456-123-4567',
         'medical1':'Heart Attack: 10-11-2015',
-        'medical2':'Medicine: Aspirin'
+        'medical2':'Allergy Medicine: Aspirin'
     }
     return render(request, 'patient_info_detail.html', {'title': 'patient', 'data': data})
 
@@ -84,13 +84,30 @@ def search_medical(request):
     type = int(request.GET.get('type'))
     data = []
     if type == 1:
-        for i in range(0, 20):
-            data.append({
-                'id':i,
-                'name':'drug' + str(i),
-                'type':1,
-                'intro':'This is a drug'
-            })
+        data.append({
+            'id':0,
+            'name':'Aspirin',
+            'type':1,
+            'intro':'This is a drug'
+        })
+        data.append({
+            'id':1,
+            'name':'ACE inhibitors',
+            'type':1,
+            'intro':'This is a drug'
+        })
+        data.append({
+            'id':2,
+            'name':'Beta-blockers',
+            'type':1,
+            'intro':'This is a drug'
+        })
+        data.append({
+            'id':3,
+            'name':'Cholesterol-lowering drugs',
+            'type':1,
+            'intro':'This is a drug'
+        })
     elif type == 2:
         for i in range(0, 20):
             data.append({
