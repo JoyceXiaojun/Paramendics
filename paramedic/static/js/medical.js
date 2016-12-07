@@ -19,5 +19,5 @@ function search(type) {
 }
 
 function enter(id) {
-    window.location.href='http://localhost:8000/paramedic/medical/' + id;
+    window.location.href='/paramedic/medical/' + id;
 }
