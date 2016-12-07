@@ -1,0 +1,395 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: EMS API
+# during dev, should point to your local machine
+host: api.ems.com
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  
+  /medication/searchByName: 
+   get: 
+     tags: 
+       - "Medication"
+     description: "The Medication endpoint is for Use Case: Get Medical Instruction. It returns drug information that matches what paramedics search. The response includes the drug's name and details of its usage. The drugs are listed in a proper order. There is no POST methods for Medication endpoint. It is assumed medication information is provided by an external database."
+     operationId: "searchMedicine"
+     produces: 
+       - "text"
+     parameters: 
+       - 
+         name: "name"
+         in: "query"
+         description: "name of drug "
+         required: true
+         type: "string"
+     responses:
+        200:
+          description: Return list of drugs with instructions
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Instruction'
+        400:
+          description: Invalid drug name
+        404:
+          description: Drug not found
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+         
+  /hospital/searchbyKeyWord: 
+   get: 
+     tags: 
+       - "Hospital"
+     description: "The Hospital endpoint is for Use Case: Paramedics Find Appropriate Hospitals. It returns a list of hospitals matches key words. The response includes the hospitals's name and address. The hopitals are ordered by distance. There is no POST methods for Hospital endpoint. It is assumed hospital information is provided by an external database."
+     operationId: "searchHospitals"
+     produces: 
+       - "text"
+     parameters: 
+       - 
+         name: "keyword"
+         in: "query"
+         description: "keywords could be service that patient needs, like trauma treament, heart attack treatment"
+         required: true
+         type: "string"
+       - 
+         name: "zone"
+         in: "query"
+         description: "current zone where paramedics are located"
+         required: true
+         type: "string"
+     responses:
+        200:
+          description: Return a list of appropriate hospitals 
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Hospital'
+        400:
+          description: Invalid zone
+        404:
+          description: Hospital not found
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /patientreport/{reportid}: 
+    get: 
+     tags: 
+       - "Patient Report"
+     description: "The endpoint is for Use Case: Prepare for patient arrival. It is for nurse to search a specific patient report. Given a valid report ID, it returns a patient report with that ID. The response is a report object."
+     operationId: "viewPatientReport"
+     produces: 
+       - "text"
+     parameters: 
+       - 
+         name: reportid
+         in: path
+         description: "id of report to return"
+         required: true
+         type: integer
+         format: int64
+     responses:
+        200:
+          description: Return patient report with the given report ID
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PatientReport'
+        400:
+          description: Invalid ID
+        404:
+          description: Report not found
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      tags: 
+        - "Patient Profile"
+      description: 
+        "The endpoint is for Use Case: Create Patient Report. It is for nurses to update status of reports. Given a valid ID of report that nurses want to modify and new status that nurses want to update, it could update the status of the report.  "
+      parameters:
+        - 
+         name: reportid
+         in: path
+         description: "id of report that needs to be updated"
+         required: true
+         type: integer
+         format: int64
+        - name: status 
+          in: formData
+          description: "Update status of that report"
+          required: true
+          type: string
+       
+      responses:
+        200:
+          description: Successful response
+          schema:
+              title: Return String
+              type: string
+              example: "Status Updated succesfully"
+        400:
+          description: Invalid ID
+        404:
+          description: Report not found
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /patientreport/findByStatus: 
+    get: 
+     tags: 
+       - "Patient Report"
+     description: "The endpoint is for Use Case: Prepare for Patient Arrival. Nurse could filter reports by status. The response contains a list of patient reports with the given status. If the status is not provided, it returns all the reports. The reports are ordered by time created. "
+     operationId: "findbyStatus"
+     produces: 
+       - "text"
+     parameters: 
+       - 
+         name: "status"
+         in: "query"
+         description: "status that needs to be considered for filter"
+         required: false
+         type: "string"
+     responses:
+        200:
+          description: Return list of reports with the given status
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PatientReport'
+        404:
+          description: Report not found
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /patient:
+    post:
+      tags: 
+        - "Patient Profile"
+      description: 
+        "The endpoint is for Use Case: Upload Patient Information and Use Case: Notify emergency contact. New user can create profile. If patient profile is created successfully, it returns 'Profile created succesfully', or it returns error message."
+      parameters:
+        - name: profile 
+          in: body
+          description: create new patient profile
+          required: true
+          schema:
+            $ref: '#/definitions/PatientProfile'
+      responses:
+        200:
+          description: Profile created succesfully
+          schema:
+              title: Return String
+              type: string
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /patient/{patientid}: 
+    get: 
+     tags: 
+       - "Patient Profile"
+     description: "The patient endpoint is for Use Case: Acquire Patient Profile. It is for paramedics to search a specific patient. Given a valid patient ID, it returns patient profile with that ID. The response is a patient profile object."
+     operationId: "viewprofile"
+     produces: 
+       - "text"
+     parameters: 
+       - 
+         name: patientid
+         in: path
+         description: "id of patient profile to return"
+         required: true
+         type: integer
+         format: int64
+     responses:
+        200:
+          description: Patient Profile with the given patient id
+          schema:
+            $ref: '#/definitions/PatientProfile'
+        400:
+          description: Invalid ID
+        404:
+          description: Patient not found
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      tags: 
+        - "Patient Profile"
+      description: 
+        "The endpoint is for Use Case: Upload Patient Information. Patient can edit patient profile with a sepcific patient ID. Patient can edit gender, birth, contact number, allergy history and medical history. "
+      parameters:
+        - 
+         name: patientid
+         in: path
+         description: "id of patient profile to be updated"
+         required: true
+         type: integer
+         format: int64
+        - 
+          name: gender 
+          in: formData
+          description: profile object
+          required: false
+          type: string
+        - 
+          name: birth 
+          in: formData
+          description: profile object
+          required: false
+          type: string
+        - 
+          name: contact 
+          in: formData
+          description: profile object
+          required: false
+          type: string
+        - 
+          name: allergy
+          in: formData
+          description: profile object
+          required: false
+          type: string  
+        - 
+          name: medical_history
+          in: formData
+          description: profile object
+          required: false
+          type: string 
+      responses:
+        200:
+          description: Profile Updated succesfully
+          schema:
+              title: Return String
+              type: string
+        400:
+          description: Invalid ID
+        404:
+          description: Patient not found
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+
+definitions:
+  Instruction:
+    type: object
+    properties:
+      drug_id:
+        type: integer
+        description: Display id of drug.
+      usage:
+        type: string
+        description: Description of drug usage.
+      drug_name:
+        type: string
+        description: Display name of drug.
+  
+        
+  PatientProfile:
+    type: object
+    properties:
+      patient_id:
+        type: integer
+        description: Display id of patient.
+      patient_name:
+        type: string
+        description: Display name of patient.
+      birth:
+        type: string
+        description: DDisplay age of patient.
+      gender:
+        type: string
+        description: Display gender of patient.
+      contact:
+        type: string
+        description: Display contact number of patient.
+      allergy:
+        type: string
+        description: Display allergy history of patient.
+      medical_history:
+        type: string
+        description: Display medical history of patient.
+        
+  PatientReport:
+    type: object
+    properties:
+      report_id:
+        type: integer
+        description: Display id of report.
+      patient_id:
+        type: integer
+        description: Display id of patient.
+      patient_profile:
+        type: object
+        description: Display the details of PatientProfile object 
+      symptom:
+        type: string
+        description: Display symptom of patient.
+      last_meal:
+        type: string
+        description: Display last meal that patient has.
+      medication:
+        type: string
+        description: Display medication that patient has.
+      event:
+        type: string
+        description: Display events leading up injury.
+      status:
+        type: string
+        description: Display status of nurse dealing with the report, either finished or pending
+      
+        
+  Hospital:
+    type: object
+    properties:
+      hopital_id:
+        type: integer
+        description: Display id of hospital.
+      addtress:
+        type: string
+        description: Display address of hospital.
+      keyword:
+        type: string
+        description: Display keyword of hospital, including what service hopitals can provide and what equipments hospitals have 
+      capacity:
+        type: string
+        description: Display capacity of hospital.
+
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
