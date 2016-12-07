@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Paramedic</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <link href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/static/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/styles/paramedic.css" rel="stylesheet">
+</head>
+<body>
+    {% include 'nav.html' %}
+    <p style="height: 80px"></p>
+    <div class="homebar">
+        <div class="homebtn" onclick="window.location.href='/paramedic/medical/drug'">
+            <center>
+                <i class="fa fa-flask homeicon" aria-hidden="true"></i>
+                <div class="btnintro">Drug</div>
+            </center>
+        </div>
+        <div class="homebtn" onclick="window.location.href='/paramedic/medical/refer'">
+            <center>
+                <i class="fa fa-heartbeat homeicon" aria-hidden="true"></i>
+                <div class="btnintro">Reference</div>
+            </center>
+        </div>
+    </div>
+    <div class="homebar">
+        <div class="homebtn" onclick="window.location.href='/paramedic/medical/protocal'">
+            <center>
+                <i class="fa fa-medkit homeicon" aria-hidden="true"></i>
+                <div class="btnintro">Protocals</div>
+            </center>
+        </div>
+        <div class="homebtn" onclick="window.location.href='/paramedic/medical/tool'">
+            <center>
+                <i class="fa fa-stethoscope homeicon" aria-hidden="true"></i>
+                <div class="btnintro">Tools</div>
+            </center>
+        </div>
+    </div>
+
+
+<script src="/static/bower_components/jquery/jquery.min.js"></script>
+<script src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
