@@ -10,7 +10,13 @@
     <link href="/static/styles/paramedic.css" rel="stylesheet">
 </head>
 <body>
-    {% include 'nav.html' %}
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header" style="text-align: center; width: 100%">
+            <a class="navbar-brand" href="#" onclick="window.location.href='/'"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+            <a class="navbar-brand" href="#" style="margin-left: 110px">{{ title }}</a>
+            <a class="navbar-brand pull-right"><i class="fa fa-bars" aria-hidden="true" onclick="window.location.href='/paramedic/home'"></i></a>
+        </div>
+    </nav>
     <div class="homebar">
         <div class="homebtn" onclick="window.location.href='/paramedic/patient_info'">
             <center>
