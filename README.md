@@ -14,11 +14,11 @@ pip3 install bootstrap-admin
 python3 manage.py runserver 0.0.0.0:8000
 ```
 - Type localhost:8000 you can enjoy it. Have fun!
-
+- Cloud Link: http://114.215.127.95:8000/
 
 ## Link to Our Style Guide
 - Source Code: https://github.com/cmusv/SRID_F16_EMS/blob/master/paramedic/static/styleguide/styleguide.html
-- Link: IP/static/styleguide/styleguide.html
+- Link: http://114.215.127.95:8000/static/styleguide/styleguide.html
 
 ## Link to Our API Requirements
 - https://github.com/cmusv/SRID_F16_EMS/blob/master/EMSAPI/api/swagger/swagger.yaml
