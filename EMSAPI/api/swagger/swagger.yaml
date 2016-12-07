@@ -86,8 +86,32 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
-  /patientreport/{reportid}: 
+  /patientreport:
+     post:
+      tags: 
+        - "Patient ProReport"
+      description: 
+        "The endpoint is for Use Case: Create Patient Report. It is for paramedics to create patient reports. "
+      parameters:
+        - name: report 
+          in: body
+          description: create new patient report
+          required: true
+          schema:
+            $ref: '#/definitions/PatientReport'
+       
+      responses:
+        200:
+          description: Report created succesfully
+          schema:
+              title: Return String
+              type: string
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /patientreport/{hospitalid}/{reportid}: 
     get: 
      tags: 
        - "Patient Report"
@@ -96,6 +120,13 @@ paths:
      produces: 
        - "text"
      parameters: 
+       - 
+         name: hospitalid
+         in: path
+         description: "id of hopital that reports belong to"
+         required: true
+         type: integer
+         format: int64
        - 
          name: reportid
          in: path
@@ -110,10 +141,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/PatientReport'
-        400:
-          description: Invalid ID
-        404:
-          description: Report not found
         500:
           description: Unexpected error
           schema:
@@ -122,8 +149,15 @@ paths:
       tags: 
         - "Patient Profile"
       description: 
-        "The endpoint is for Use Case: Create Patient Report. It is for nurses to update status of reports. Given a valid ID of report that nurses want to modify and new status that nurses want to update, it could update the status of the report.  "
+        "The endpoint is for Use Case: Prepare for patient arrival. It is for nurses to update status of reports. Given a valid ID of report that nurses want to modify and new status that nurses want to update, it could update the status of the report.  "
       parameters:
+        - 
+         name: hospitalid
+         in: path
+         description: "id of hopital that reports belong to"
+         required: true
+         type: integer
+         format: int64
         - 
          name: reportid
          in: path
@@ -182,7 +216,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
             
-  /patient:
+  /patient/:
     post:
       tags: 
         - "Patient Profile"
@@ -206,12 +240,11 @@ paths:
           schema:
             $ref: '#/definitions/Error'
             
-  /patient/{patientid}: 
+  /patient/{patientid}:
     get: 
      tags: 
        - "Patient Profile"
      description: "The patient endpoint is for Use Case: Acquire Patient Profile. It is for paramedics to search a specific patient. Given a valid patient ID, it returns patient profile with that ID. The response is a patient profile object."
-     operationId: "viewprofile"
      produces: 
        - "text"
      parameters: 
@@ -224,66 +257,9 @@ paths:
          format: int64
      responses:
         200:
-          description: Patient Profile with the given patient id
+          description: Patient Upload Profile Succesfully
           schema:
-            $ref: '#/definitions/PatientProfile'
-        400:
-          description: Invalid ID
-        404:
-          description: Patient not found
-        500:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-    post:
-      tags: 
-        - "Patient Profile"
-      description: 
-        "The endpoint is for Use Case: Upload Patient Information. Patient can edit patient profile with a sepcific patient ID. Patient can edit gender, birth, contact number, allergy history and medical history. "
-      parameters:
-        - 
-         name: patientid
-         in: path
-         description: "id of patient profile to be updated"
-         required: true
-         type: integer
-         format: int64
-        - 
-          name: gender 
-          in: formData
-          description: profile object
-          required: false
-          type: string
-        - 
-          name: birth 
-          in: formData
-          description: profile object
-          required: false
-          type: string
-        - 
-          name: contact 
-          in: formData
-          description: profile object
-          required: false
-          type: string
-        - 
-          name: allergy
-          in: formData
-          description: profile object
-          required: false
-          type: string  
-        - 
-          name: medical_history
-          in: formData
-          description: profile object
-          required: false
-          type: string 
-      responses:
-        200:
-          description: Profile Updated succesfully
-          schema:
-              title: Return String
-              type: string
+              $ref: '#/definitions/PatientProfile'
         400:
           description: Invalid ID
         404:
@@ -293,6 +269,46 @@ paths:
           schema:
             $ref: '#/definitions/Error'
             
+            
+  /patient/{patientid}/uploadImage:
+    get: 
+     tags: 
+       - "Patient Profile"
+     description: "The patient endpoint is for Use Case: Create Patient Profile. It is for patient to upload image."
+     operationId: "viewprofile"
+     produces: 
+       - "text"
+     parameters: 
+       - 
+         name: patientid
+         in: path
+         description: "id of patient profile to return"
+         required: true
+         type: integer
+         format: int64
+       -
+         name: file
+         in: query
+         description: "image patient uploaded to profile"
+         required: true
+         type: integer
+         format: int64
+         
+     responses:
+        200:
+          description: Patient Profile with the given patient id
+          schema:
+            title: Return String
+            type: string
+        400:
+          description: Invalid ID
+        404:
+          description: Patient not found
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    
   
   /swagger:
     x-swagger-pipe: swagger_raw

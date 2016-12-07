@@ -7,3 +7,7 @@ function send_report() {
 function back() {
     window.location.href = '/paramedic/home';
 }
+function sendImg(ele) {
+    $("#loading").css("visibility", "visible");
+    setTimeout("$('#loading').css('visibility', 'hidden')",3000);
+}

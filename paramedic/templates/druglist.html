@@ -8,6 +8,7 @@
     <link href="/static/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="/static/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/static/styles/paramedic.css" rel="stylesheet">
+
 </head>
 <body>
     {% include 'nav.html' %}
@@ -22,14 +23,25 @@
                 </span>
             </div>
         </div>
-
+        <ul class="list-group" id="itemslist">
+{#            {% if items %}#}
+{#                {% for item in items %}#}
+{#                    <li class="list-group-item noitem">{{ item.name }}</li>#}
+{#                {% endfor %}#}
+{#            {% else %}    #}
+{#                <li class="list-group-item noitem">No result now</li>#}
+{#            {% endif %}#}
+             <li class="list-group-item noitem">Abarelix</li>
+             <li class="list-group-item noitem">Abilify</li>
+             <li class="list-group-item noitem">Acarbose</li>
+             <li class="list-group-item noitem">Aspirin</li>
+             <li class="list-group-item noitem">ACE inhibitors</li>
+        </ul>
     </div>
-    <ul class="list-group" id="itemslist">
-        <li class="list-group-item noitem">No result now</li>
-    </ul>
 
     <script src="/static/js/medical.js"></script>
     <script src="/static/bower_components/jquery/jquery.min.js"></script>
     <script src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
 </body>
 </html>
