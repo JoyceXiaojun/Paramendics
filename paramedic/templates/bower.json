@@ -1,0 +1,23 @@
+{
+  "name": "prototype",
+  "authors": [
+    "slothOn <zxctyzx@163.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jquery": "^3.1.1",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "fontawesome#^4.7.0",
+    "jquery-mobile": "^1.4.5"
+  }
+}

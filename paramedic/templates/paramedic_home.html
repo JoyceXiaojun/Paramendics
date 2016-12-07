@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Paramedic</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <link href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/static/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/styles/paramedic.css" rel="stylesheet">
+</head>
+<body>
+    {% include 'nav.html' %}
+    <div class="homebar">
+        <div class="homebtn" onclick="window.location.href='/paramedic/patient_info'">
+            <center>
+                <i class="fa fa-info homeicon" aria-hidden="true"></i>
+                <div class="btnintro">patient information</div>
+            </center>
+        </div>
+        <div class="homebtn" onclick="window.location.href='/paramedic/instruction'">
+            <center>
+                <i class="fa fa-user-md homeicon" aria-hidden="true"></i>
+                <div class="btnintro">medical instruction</div>
+            </center>
+        </div>
+    </div>
+    <div class="homebar">
+        <div class="homebtn" onclick="window.location.href='/paramedic/report'">
+            <center>
+                <i class="fa fa-book homeicon" aria-hidden="true"></i>
+                <div class="btnintro">Create Report</div>
+            </center>
+        </div>
+        <div class="homebtn" onclick="window.location.href='/paramedic/map?type=1'">
+            <center>
+                <i class="fa fa-map homeicon" aria-hidden="true"></i>
+                <div class="btnintro">View Location</div>
+            </center>
+        </div>
+    </div>
+    <div class="homebar">
+        <div class="homebtn" onclick="window.location.href='/paramedic/hospital_info'">
+            <center>
+                <i class="fa fa-hospital-o homeicon" aria-hidden="true"></i>
+                <div class="btnintro">Find Hospital</div>
+            </center>
+        </div>
+    </div>
+
+
+    <script src="/static/bower_components/jquery/jquery.min.js"></script>
+    <script src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

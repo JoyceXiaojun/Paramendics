@@ -1,0 +1,34 @@
+.homeicon {
+  font-size: 10em;
+}
+.homebtn {
+  width: 48%;
+  display: inline-block;
+}
+.homebar {
+  margin: 30px 0;
+}
+.btnsplit {
+  height: 200px;
+}
+
+ul {
+  overflow:hidden;
+  overflow-y:scroll;
+}
+
+.split_line{
+  color: #aaa;
+  padding: 0 20px 0;
+  margin: 20px 0;
+  line-height: 1px;
+  border-left: 80px solid #ddd;
+  border-right: 80px solid #ddd;
+  text-align: center;
+}
+
+#image_face {
+  overflow: hidden;
+  opacity: 0;
+  display: none;
+}
