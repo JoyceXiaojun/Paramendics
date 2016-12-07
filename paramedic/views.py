@@ -84,33 +84,37 @@ def search_medical(request):
     type = int(request.GET.get('type'))
     data = []
     if type == 1:
-        data.append({
-            'id':1,
-            'name':'drug1',
-            'type':1,
-            'intro':'This is a drug'
-        })
+        for i in range(0, 20):
+            data.append({
+                'id':i,
+                'name':'drug' + str(i),
+                'type':1,
+                'intro':'This is a drug'
+            })
     elif type == 2:
-        data.append({
-            'id':1,
-            'name':'reference1',
-            'type':2,
-            'intro':'This is a reference'
-        })
+        for i in range(0, 20):
+            data.append({
+                'id':i,
+                'name':'reference' + str(i),
+                'type':2,
+                'intro':'This is a reference'
+            })
     elif type == 3:
-        data.append({
-            'id':1,
-            'name':'protocal1',
-            'type':3,
-            'intro':'This is a protocal'
-        })
+        for i in range(0, 20):
+            data.append({
+                'id':i,
+                'name':'protocal' + str(i),
+                'type':3,
+                'intro':'This is a protocal'
+            })
     else:
-        data.append({
-            'id':1,
-            'name':'tool1',
-            'type':4,
-            'intro':'This is a tool'
-        })
+        for i in range(0, 20):
+            data.append({
+                'id':i,
+                'name':'tool' + str(i),
+                'type':4,
+                'intro':'This is a tool'
+            })
 
     return HttpResponse(json.dumps(data, ensure_ascii=False))
 

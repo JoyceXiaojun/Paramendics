@@ -1,6 +1,7 @@
 /**
  * Created by zxc on 16/12/4.
  */
+
 function search(type) {
     $.get('/paramedic/medical/search?name=' + $("#pname").val() + '&type=' + type, function(data, status, xhr) {
         if (xhr.status == 200) {

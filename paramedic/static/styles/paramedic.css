@@ -32,3 +32,9 @@ ul {
   opacity: 0;
   display: none;
 }
+
+#itemslist {
+  height: 600px;
+  overflow:hidden;
+  overflow-y:scroll;
+}
