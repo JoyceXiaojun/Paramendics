@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EMS ASSISTANCE APP</title>
+    <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css" media="screen" title="no title">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css" media="screen" title="no title">
+    <link rel="stylesheet" href="/static/bower_components/font-awesome/css/font-awesome.min.css" media="screen" title="no title">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+    <style media="screen">
+        .inline-div {
+            display: inline-block;
+        }
+
+        .contactsbox {
+            height: 200px;
+            border: 1px solid black;
+            overflow-y: auto;
+        }
+
+        .tt-menu {
+            width: 422px;
+            margin: 12px 0;
+            padding: 8px 0;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            border-radius: 8px;
+            -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+            -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+        }
+
+        .tt-suggestion {
+            padding: 3px 20px;
+            font-size: 18px;
+            line-height: 24px;
+        }
+
+        .tt-suggestion:hover {
+            cursor: pointer;
+            color: #fff;
+            background-color: #0097cf;
+        }
+
+        .tt-suggestion.tt-cursor {
+            color: #fff;
+            background-color: #0097cf;
+        }
+
+        .tt-suggestion p {
+            margin: 0;
+        }
+
+        #search-input {
+            vertical-align: bottom;
+        }
+
+        span.twitter-typeahead {
+            width: 73%;
+        }
+
+        #addDisease {
+            width: auto;
+            vertical-align: bottom;
+        }
+
+        .patient-info-save {
+            padding-top: 200px;
+            width: 80%;
+        }
+
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+            font-size: 12px;
+        }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+
+        .toggle.btn {
+            width: 100px !important;
+        }
+
+        .padding-7 {}
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header" style="text-align: center; width: 100%">
+            <a class="navbar-brand" href="#" onclick="history.back()"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+            <a class="navbar-brand" href="#" style="margin-left: 110px">Patient List</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="form-group patient-group">
+            <div class="list-group">
+                <a href="#" class="list-group-item disabled">Patient 1 <span class="label label-success">Prepared</span> <span class="label label-danger">Heart Attack</span></a>
+                <a href="#" class="list-group-item disabled">Patient 2 <span class="label label-success">Prepared</span> <span class="label label-warning">Infectious Disease</span></a>
+                <a href="#" class="patient-detail list-group-item">Patient 3 <span class="label label-danger">Pending</span> <span class="label label-primary">Injury Emergency</span></a>
+                <a href="#" class="patient-detail list-group-item">Patient 4 <span class="label label-danger">Pending</span> <span class="label label-primary">Injury Emergency</span></a>
+            </div>
+        </div>
+
+        <div class="row" id="patient-info" style="display:none;">
+            <div class="col-md-5 col-xs-12">
+                <form>
+                    <!-- <fieldset> -->
+                    <!-- <legend><a>Basic Info</a></legend> -->
+                    <div style="height:200px;">
+                        <div class="form-group inline-div col-xs-6">
+                            <img src="/static/images/default_admin_icon.png" class="img-circle" alt="Person" style="height:150px;width:150px;">
+
+                        </div>
+                        <div class="inline-div col-xs-6" style="padding-top:20px;">
+                            <div class="form-group">
+                                <label for="name">Name: Paul Smith</label>
+                                <label for="id">ID: Y4506077</label>
+                                <label for="contact">Contact: 650-111-1111</label>
+                                <label for="age" style="display:block;">Age: 45</label>
+                                <label for="sex">Gender: male</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Status Code: </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Allergy History</div>
+                                <div class="panel-body">
+                                    <ul>
+                                        <li>1.</li>
+                                        <li>2.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Medical Histroy</div>
+                                <div class="panel-body">
+                                    <ul>
+                                        <li>1.</li>
+                                        <li>2.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prepare-patient" style="display:block;">Prepare the Patient</label>
+                        <input id="patient-toggle" style="width:100%;" type="checkbox" data-toggle="toggle" data-on="Ready" data-off="Not Ready" data-onstyle="success" data-offstyle="danger">
+
+                    </div>
+                </form>
+                <p class="text-center">
+                    <a href="#" class="btn btn-primary save-button" name="savebutton">Save</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="/static/bower_components/jquery/jquery.min.js" charset="utf-8"></script>
+    <script src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            var _selectdPatient, isPatientReady = false;;
+
+            $(".patient-group").on("click", ".patient-detail", function(e) {
+                if ($(this).hasClass("disabled")) {
+                    return false;
+                }
+                $("#patient-info").show();
+                _selectdPatient = $(this);
+                $("#patient-toggle").bootstrapToggle('off');
+                $(".patient-group").hide();
+                e.preventDefault();
+            });
+            $("#patient-toggle").change(function() {
+                isPatientReady = $(this).prop("checked");
+            })
+            $(".save-button").click(function(e) {
+                if (isPatientReady) {
+                    _selectdPatient.addClass("disabled");
+                    _selectdPatient.find("span").removeClass("label-danger").addClass("label-success");
+                }
+                $("#patient-info").hide();
+                $(".patient-group").show();
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
