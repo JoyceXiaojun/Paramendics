@@ -115,10 +115,11 @@
     <div class="container">
         <div class="form-group patient-group">
             <div class="list-group">
-                <a href="#" class="list-group-item disabled">Patient 1 <span class="label label-success">Prepared</span> <span class="label label-danger">Heart Attack</span></a>
-                <a href="#" class="list-group-item disabled">Patient 2 <span class="label label-success">Prepared</span> <span class="label label-warning">Infectious Disease</span></a>
-                <a href="#" class="patient-detail list-group-item">Patient 3 <span class="label label-danger">Pending</span> <span class="label label-primary">Injury Emergency</span></a>
-                <a href="#" class="patient-detail list-group-item">Patient 4 <span class="label label-danger">Pending</span> <span class="label label-primary">Injury Emergency</span></a>
+              <a href="#" class="patient-detail list-group-item">Patient 1 <span class="label label-danger">Pending</span> <span class="label label-primary">Cutting Finger</span></a>
+              <a href="#" class="patient-detail list-group-item">Patient 2 <span class="label label-danger">Pending</span> <span class="label label-danger">Heart Attack</span></a>
+                <a href="#" class="list-group-item disabled">Patient 3 <span class="label label-success">Prepared</span> <span class="label label-danger">Heart Attack</span></a>
+                <a href="#" class="list-group-item disabled">Patient 4 <span class="label label-success">Prepared</span> <span class="label label-warning">Infectious Disease</span></a>
+
             </div>
         </div>
 
@@ -154,8 +155,8 @@
                                 <div class="panel-heading">Allergy History</div>
                                 <div class="panel-body">
                                     <ul>
-                                        <li>1.</li>
-                                        <li>2.</li>
+                                        <li>1.Aspirin allergy</li>
+                                        <li>2.Peanuts</li>
                                     </ul>
                                 </div>
                             </div>
@@ -163,8 +164,8 @@
                                 <div class="panel-heading">Medical Histroy</div>
                                 <div class="panel-body">
                                     <ul>
-                                        <li>1.</li>
-                                        <li>2.</li>
+                                        <li>1.Heart Disease</li>
+                                        <li>2.Diabetes</li>
                                     </ul>
                                 </div>
                             </div>
@@ -208,7 +209,7 @@
             $(".save-button").click(function(e) {
                 if (isPatientReady) {
                     _selectdPatient.addClass("disabled");
-                    _selectdPatient.find("span").removeClass("label-danger").addClass("label-success");
+                    _selectdPatient.find("span:first").removeClass("label-danger").addClass("label-success").text("Prepared");
                 }
                 $("#patient-info").hide();
                 $(".patient-group").show();
